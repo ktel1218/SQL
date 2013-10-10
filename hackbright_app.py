@@ -16,6 +16,20 @@ def connect_to_db():
     CONN = sqlite3.connect("hackbright.db")
     DB = CONN.cursor()
 
+def make_new_student(first_name, last_name, github):
+    query = """INSERT into Students values (?, ?, ?)"""
+    DB.execute(query, (first_name, last_name, github))
+
+    CONN.commit()
+    print "Successfully added student: %s %s"%(first_name, last_name)
+
+def get_project_by_title(title):
+    query = """SELECT title FROM Projects WHERE title = ?"""
+    DB.execute(query, (title,))
+    row = DB.fetchone()
+    print """\
+Project: %s   """ %(row[0])
+
 def main():
     connect_to_db()
     command = None
@@ -29,6 +43,8 @@ def main():
             get_student_by_github(*args) 
         elif command == "new_student":
             make_new_student(*args)
+        elif command == "project_search":
+            get_project_by_title(*args)
 
     CONN.close()
 
