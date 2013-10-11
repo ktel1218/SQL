@@ -54,14 +54,14 @@ Student Github: %s
 Project: %s
 Grade: %r""" % (row[0], row[1], row[2])
 
-def get_grades_by_student(github):
-    query = """SELECT * FROM Grades WHERE student_github= ?"""
-    DB.execute(query, (github,))
+def get_grades_by_student(last_name, first_name):
+    query = """SELECT * FROM ReportCardView WHERE last_name = ? AND first_name = ?"""
+    DB.execute(query, (last_name, first_name))
     row = DB.fetchall()
     for item in row:
         print """\
         Project: %s
-        Grade: %d""" %(item[1], item[2])
+        Grade: %d""" %(item[2], item[3])
 
 def main():
     connect_to_db()
